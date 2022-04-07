@@ -23,10 +23,7 @@ const {SECRET_KEY} = process.env;
 const authenticate = async (req, res, next)=> {
     try {
         const {authorization = ""} = req.headers;
-        const [bearer, token] = authorization.split(" ");
-        if(bearer !== "Bearer"){
-            throw new createError(401, "Not authorized");
-        }
+        const token = authorization;
         const {id} = jwt.verify(token, SECRET_KEY);
         const user = await User.findById(id);
         if(!user || !user.token) {
