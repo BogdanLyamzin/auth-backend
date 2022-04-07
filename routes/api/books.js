@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/", authenticate, async(req, res, next)=> {
     try {
         const {_id} = req.user;
-        const result = await Book.find({owner: _id}).populate("owner", "email");
+        const result = await Book.find({owner: _id}, "-owner -createdAt -updatedAt").populate("owner", "email");
         res.json(result);
     } catch (error) {
         next(error);
@@ -19,7 +19,7 @@ router.get("/", authenticate, async(req, res, next)=> {
 router.get("/:id", async(req, res, next)=> {
     try {
         const {id} = req.params;
-        const result = await Book.findById(id);
+        const result = await Book.findById(id, "-owner -createdAt -updatedAt");
         if(!result){
             throw new createError(404, "Not found");
         }
