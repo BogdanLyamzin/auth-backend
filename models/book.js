@@ -28,7 +28,7 @@ const joiAddSchema = Joi.object({
     favorite: Joi.boolean(),
 })
 
-const Book = model("product", bookSchema);
+const Book = model("book", bookSchema);
 
 module.exports = {
     Book,
