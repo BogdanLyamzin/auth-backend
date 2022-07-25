@@ -12,7 +12,7 @@ const productSchema = Schema({
         required: true,
     },
     description: {
-        type: Boolean,
+        type: String,
         default: true
     },
     owner: {

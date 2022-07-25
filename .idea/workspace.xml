@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53771100-83a7-4f07-b230-bdd2e10e0080" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+    <list default="true" id="e669ab9b-0286-4106-8445-661a620dabf2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/product.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +18,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2AHXebcUiymSFvTpkGu1KfdllW4" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2CQYbU5zFzPSQoQfxBzzP27yiyr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -36,16 +35,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="53771100-83a7-4f07-b230-bdd2e10e0080" name="Changes" comment="" />
-      <created>1654667610892</created>
+      <changelist id="e669ab9b-0286-4106-8445-661a620dabf2" name="Changes" comment="" />
+      <created>1658736348320</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1654667610892</updated>
-      <workItem from="1654667618449" duration="2131000" />
-      <workItem from="1654757712483" duration="605000" />
-      <workItem from="1654762955438" duration="999000" />
-      <workItem from="1658389049486" duration="2387000" />
-      <workItem from="1658479739066" duration="2840000" />
+      <updated>1658736348320</updated>
+      <workItem from="1658736350381" duration="47000" />
     </task>
     <servers />
   </component>
