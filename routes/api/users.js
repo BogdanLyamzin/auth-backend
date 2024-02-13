@@ -10,11 +10,8 @@ const router = express.Router();
 
 const {SECRET_KEY} = process.env;
 
-
-
 router.post("/signup", async(req, res, next)=> {
     try {
-        await User.deleteMany();
         const {error} = schemas.register.validate(req.body);
         if(error){
             throw new HttpError(400, error.message)
