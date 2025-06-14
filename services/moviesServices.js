@@ -1,26 +1,13 @@
-import Movie from "../db/models/Movie.js";
+import Movie from "../models/Movie.js";
 
-export const getMovies = query => Movie.findAll({
-    where: query
-});
+export const getMovies = (filter, settings) => {
+    return Movie.find(filter, "-createdAt -updatedAt", settings).populate("owner", "username email");
+};
 
-export const getMovieById = id => Movie.findByPk(id);
+export const getOneMovie = filter => Movie.findOne(filter)
 
-export const getMovie = query => Movie.findOne({
-    where: query
-});
+export const addMovie = (data) => Movie.create(data);
 
-export const addMovie = data => Movie.create(data);
+export const updateOneMovie = async (filter, data) => Movie.findOneAndUpdate(filter, data);
 
-export const updateMovie = async(query, data)=> {
-    const movie = await getMovie(query);
-    if(!movie) return null;
-
-    return movie.update(data, {
-        returning: true,
-    });
-}
-
-export const deleteMovie = query => Movie.destroy({
-    where: query
-})
+export const deleteOneMovie = filter => Movie.findOneAndDelete(filter);

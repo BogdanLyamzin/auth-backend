@@ -1,9 +1,11 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import mongoose from "mongoose";
 import "dotenv/config";
 
 import authRouter from "./routes/authRouter.js";
+import genresRouter from "./routes/genresRouter.js";
 import moviesRouter from "./routes/moviesRouter.js";
 
 const app = express();
@@ -13,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
+app.use("/api/genres", genresRouter);
 app.use("/api/movies", moviesRouter);
 
 app.use((_, res) => {
@@ -24,9 +27,14 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-const {PORT = 3000} = process.env;
-const port = Number(PORT);
-
-app.listen(port, () => {
-  console.log(`Server is running. Use our API on port: ${port}`);
-});
+mongoose.connect(process.env.DB_HOST)
+  .then(()=> {
+    console.log("Database connect success");
+    app.listen(3000, () => {
+      console.log("Server is running. Use our API on port: 3000");
+    });
+  })
+  .catch(error => {
+    console.log(error.message);
+    process.exit(1);
+  })

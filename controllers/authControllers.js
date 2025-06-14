@@ -2,42 +2,44 @@ import * as authServices from "../services/authServices.js";
 
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
-const signupController = async(req, res)=> {
-    const newUser = await authServices.signupUser(req.body);
+const signup = async(req, res)=> {
+    const newUser = await authServices.signup(req.body);
 
     res.status(201).json({
         username: newUser.username,
         email: newUser.email,
-    });
-}
-
-const signinController = async(req, res)=> {
-   const data = await authServices.signinUser(req.body);
-
-    res.json(data);
-}
-
-const getCurrentController = (req, res)=> {
-    const {email, username} = req.user;
-
-    res.json({
-        email,
-        username,
     })
 }
 
-const logoutController = async(req, res)=> {
-    const {id} = req.user;
-    await authServices.logoutUser(id);
+const signin = async(req, res)=> {
+    const {token} = await authServices.signin(req.body);
 
     res.json({
-        message: "Logout successfully"
+        token,
+    })
+}
+
+const getCurrent = (req, res)=> {
+    const {username, email} = req.user;
+
+    res.json({
+        username,
+        email,
+    });
+}
+
+const signout = async(req, res)=> {
+    const {_id} = req.user;
+    await authServices.updateUser({_id}, {token: ""});
+
+    res.json({
+        message: "Logout success"
     })
 }
 
 export default {
-    signupController: ctrlWrapper(signupController),
-    signinController: ctrlWrapper(signinController),
-    getCurrentController: ctrlWrapper(getCurrentController),
-    logoutController: ctrlWrapper(logoutController),
+    signup: ctrlWrapper(signup),
+    signin: ctrlWrapper(signin),
+    getCurrent: ctrlWrapper(getCurrent),
+    signout: ctrlWrapper(signout),
 }

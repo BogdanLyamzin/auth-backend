@@ -1,21 +1,24 @@
-import express from "express";
-
-import authenticate from "../middlewares/authenticate.js";
+import { Router } from "express";
 
 import authControllers from "../controllers/authControllers.js";
 
 import validateBody from "../decorators/validateBody.js";
 
-import { authSignupSchema, authSigninSchema } from "../schemas/authSchemas.js"
+import {userSignupSchema, userSigninSchema} from "../schemas/userSchemas.js";
 
-const authRouter = express.Router();
+import authenticate from "../middlewares/authenticate.js";
 
-authRouter.post("/signup", validateBody(authSignupSchema), authControllers.signupController);
+const signupMiddleware = validateBody(userSignupSchema);
+const signinMiddleware = validateBody(userSigninSchema);
 
-authRouter.post("/login",  authControllers.signinController);
+const authRouter = Router();
 
-authRouter.get("/current", authenticate, authControllers.getCurrentController);
+authRouter.post("/signup", signupMiddleware, authControllers.signup);
 
-authRouter.post("/logout", authenticate, authControllers.logoutController);
+authRouter.post("/signin", signinMiddleware, authControllers.signin);
+
+authRouter.get("/current", authenticate, authControllers.getCurrent);
+
+authRouter.post("/signout", authenticate, authControllers.signout);
 
 export default authRouter;

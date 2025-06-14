@@ -1,27 +1,30 @@
-import express from "express";
+import { Router } from "express";
 
-import authenticate from "../middlewares/authenticate.js";
+import isValidId from "../middlewares/isValidId.js";
 
 import moviesControllers from "../controllers/moviesControllers.js";
 
 import validateBody from "../decorators/validateBody.js";
 
-import { movieAddSchema, movieUpdateSchema } from "../schemas/moviesSchemas.js";
+import {movieAddSchema, movieUpdateSchema} from "../schemas/moviesSchemas.js";
 
-import isEmptyBody from "../middlewares/isEmptyBody.js";
+import authenticate from "../middlewares/authenticate.js";
 
-const moviesRouter = express.Router();
+const addMiddleware = validateBody(movieAddSchema);
+const updateMiddleware = validateBody(movieUpdateSchema);
+
+const moviesRouter = Router();
 
 moviesRouter.use(authenticate);
 
-moviesRouter.get("/", moviesControllers.getMoviesController);
+moviesRouter.get("/", moviesControllers.getAll);
 
-moviesRouter.get("/:id", moviesControllers.getMovieByIdController);
+moviesRouter.get("/:id", isValidId, moviesControllers.getById);
 
-moviesRouter.post("/", isEmptyBody, validateBody(movieAddSchema), moviesControllers.addMovieController);
+moviesRouter.post("/", addMiddleware, moviesControllers.add);
 
-moviesRouter.put("/:id", isEmptyBody, validateBody(movieUpdateSchema), moviesControllers.updateMovieByIdController)
+moviesRouter.put("/:id", isValidId, updateMiddleware, moviesControllers.updateById);
 
-moviesRouter.delete("/:id", moviesControllers.deleteMovieByIdController);
+moviesRouter.delete("/:id", isValidId, moviesControllers.deleteById);
 
 export default moviesRouter;

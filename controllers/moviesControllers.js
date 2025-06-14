@@ -1,68 +1,68 @@
-import * as moviesService from "../services/moviesServices.js";
-
-import HttpError from "../helpers/HttpError.js";
+import * as moviesServices from "../services/moviesServices.js";
 
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
-const getMoviesController = async (req, res) => {
-  const { id: owner } = req.user;
-  const data = await moviesService.getMovies({owner});
-  // const data = await moviesService.getMovies({});
-  res.json(data);
-};
+import HttpError from "../helpers/HttpError.js";
 
-const getMovieByIdController = async (req, res) => {
-  const { id } = req.params;
-  const { id: owner } = req.user;
-  const data = await moviesService.getMovie({id, owner});
+const getAll = async (req, res) => {
+    const {_id: owner} = req.user;
+    const {page = 1, limit = 10} = req.query;
+    const skip = (page - 1) * limit;
+    const result = await moviesServices.getMovies({owner}, {skip, limit});
 
-  if (!data) {
-    throw HttpError(404, `Movie with id=${id} not found`);
-  }
+    res.json(result);
+}
 
-  res.json(data);
-};
+const getById = async (req, res) => {
+    const { id } = req.params;
+    const {_id: owner} = req.user;
+    const result = await moviesServices.getOneMovie({_id: id, owner});
 
-const addMovieController = async (req, res) => {
-  const { id: owner } = req.user;
-  const data = await moviesService.addMovie({ ...req.body, owner });
-  // const data = await moviesService.addMovie(req.body);
+    if (!result) {
+        throw HttpError(404, `Movie with id=${id} not found`);
+    }
 
-  res.status(201).json(data);
-};
+    res.json(result);
+}
 
-const updateMovieByIdController = async (req, res) => {
-  const { id } = req.params;
-  const { id: owner } = req.user;
-  const data = await moviesService.updateMovie({id, owner}, req.body);
+const add = async (req, res) => {
+    const {_id: owner} = req.user;
+    const result = await moviesServices.addMovie({...req.body, owner});
 
-  if (!data) {
-    throw HttpError(404, `Movie with id=${id} not found`);
-  }
+    res.status(201).json(result);
+}
 
-  res.json(data);
-};
+const updateById = async (req, res) => {
+    const { id } = req.params;
+    const {_id: owner} = req.user;
+    const result = await moviesServices.updateOneMovie({_id: id, owner}, req.body);
+    if (!result) {
+        throw HttpError(404, `Movie with id=${id} not found`);
+    }
 
-const deleteMovieByIdController = async (req, res) => {
-  const { id } = req.params;
-  // const { id: owner } = req.user;
-  // const data = await moviesService.deleteMovie({id, owner});
-  const data = await moviesService.deleteMovie({id});
+    res.json(result);
+}
 
-  if (!data) {
-    throw HttpError(404, `Movie with id=${id} not found`);
-  }
-  // res.status(204).send();
+const deleteById = async (req, res) => {
+    const { id } = req.params;
+    const {_id: owner} = req.user;
 
-  res.json({
-    message: "Delete successfully",
-  });
-};
+    const result = await moviesServices.deleteOneMovie({_id: id, owner});
+    if (!result) {
+        throw HttpError(404, `Movie with id=${id} not found`);
+    }
+
+    // res.status(204).send();
+
+    res.json({
+        message: "Delete success"
+    })
+}
 
 export default {
-  getMoviesController: ctrlWrapper(getMoviesController),
-  getMovieByIdController: ctrlWrapper(getMovieByIdController),
-  addMovieController: ctrlWrapper(addMovieController),
-  updateMovieByIdController: ctrlWrapper(updateMovieByIdController),
-  deleteMovieByIdController: ctrlWrapper(deleteMovieByIdController),
-};
+    getAll: ctrlWrapper(getAll),
+    getById: ctrlWrapper(getById),
+    add: ctrlWrapper(add),
+    updateById: ctrlWrapper(updateById),
+    deleteById: ctrlWrapper(deleteById),
+}

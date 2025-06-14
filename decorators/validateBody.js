@@ -1,17 +1,15 @@
 import HttpError from "../helpers/HttpError.js";
 
-const validateBody = movieAddSchema => {
-    const func = (req, res, next)=> {
-        const {error} = movieAddSchema.validate(req.body, {
-            abortEarly: false,
-        });
-        if(error) {
-            return next(HttpError(400, error.message));
-        }
-        next();
+const validateBody = (schema) => {
+  const func = (req, _, next) => {
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return next(HttpError(400, error.message));
     }
+    next();
+  };
 
-    return func;
-}
+  return func;
+};
 
 export default validateBody;
