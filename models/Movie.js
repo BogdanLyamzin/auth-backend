@@ -23,8 +23,8 @@ const movieSchema = new Schema({
         required: true,
     },
     releaseYear: {
-        type: String,
-        match: releaseYearRegexp,
+        type: Number,
+        min: 1895,
         required: true,
     },
     owner: {
@@ -39,6 +39,14 @@ movieSchema.post("save", handleSaveError);
 movieSchema.pre("findOneAndUpdate", setUpdateOptions);
 
 movieSchema.post("findOneAndUpdate", handleSaveError);
+
+export const movieSortFields = [
+    'title',
+    'director',
+    'favorite',
+    'genre',
+    'releaseYear',
+  ];
 
 const Movie = model("movie", movieSchema);
 

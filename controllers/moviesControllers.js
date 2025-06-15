@@ -4,11 +4,18 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
 import HttpError from "../helpers/HttpError.js";
 
+import { parsePaginationParams } from '../helpers/parsePaginationParams.js';
+import { parseSortParams } from '../helpers/parseSortParams.js';
+import { parseMovieFilterParams } from '../helpers/filters/parseMovieFilterParams.js';
+
+import { movieSortFields } from '../models/Movie.js';
+
 const getAll = async (req, res) => {
-    const {_id: owner} = req.user;
-    const {page = 1, limit = 10} = req.query;
-    const skip = (page - 1) * limit;
-    const result = await moviesServices.getMovies({owner}, {skip, limit});
+    const paginationParams = parsePaginationParams(req.query);
+    const sortParams = parseSortParams(req.query, movieSortFields);
+    const filters = parseMovieFilterParams(req.query);
+    filters.owner = req.user._id;
+    const result = await moviesServices.getMovies({...paginationParams, ...sortParams, filters});
 
     res.json(result);
 }

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { genreList, releaseYearRegexp } from "../constants/movie-constants.js";
+import { genreList } from "../constants/movie-constants.js";
 
 export const movieAddSchema = Joi.object({
     title: Joi.string().required().messages({
@@ -9,7 +9,7 @@ export const movieAddSchema = Joi.object({
     director: Joi.string().required(),
     favorite: Joi.boolean(),
     genre: Joi.string().valid(...genreList).required(),
-    releaseYear: Joi.string().pattern(releaseYearRegexp).required(),
+    releaseYear: Joi.number().min(1895).required(),
 })
 
 export const movieUpdateSchema = Joi.object({
@@ -17,5 +17,5 @@ export const movieUpdateSchema = Joi.object({
     director: Joi.string(),
     favorite: Joi.boolean(),
     genre: Joi.string().valid(...genreList),
-    releaseYear: Joi.string().pattern(releaseYearRegexp),
+    releaseYear: Joi.number().min(1985),
 })
